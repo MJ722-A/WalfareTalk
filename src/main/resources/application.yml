@@ -1,0 +1,34 @@
+server:
+  port: 8080 # 내 스프링부트 백엔드 서버가 사용할 포트 번호
+
+welfare:
+  api:
+    # 공공데이터 API KEY
+    key: ccb365c1b74b195ab9e40e0e1b33f1e3cfecc4a493866b744863644ce55c023d
+
+gemini:
+  api:
+    # 재미나이 API KEY
+    key: AIzaSyAD19EaQxAENRYg_TC4zUAGvcYGFBhMUhc
+
+spring:
+  # ==========================================
+  # MySQL 데이터베이스 연결 설정
+  # ==========================================
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/bokjitalk?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    # DB 비밀번호
+    password: 111111 
+
+  # ==========================================
+  # JPA (데이터베이스 통신) 설정
+  # ==========================================
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true

@@ -1,0 +1,516 @@
+/* ========================================================
+   [복지톡 - 스타일시트 (style.css)]
+   웹페이지의 모든 색상, 크기, 여백, 애니메이션 등 시각적인 디자인을 담당합니다.
+   ========================================================
+*/
+
+/* 💡 [전역 변수 설정]
+   자주 쓰는 색상이나 그림자 효과를 변수(--이름)로 등록해 두고 재사용합니다.
+   나중에 앱의 테마 색상을 바꿀 때 여기만 수정하면 전체가 한 번에 바뀝니다!
+*/
+:root {
+    --primary: #5A5A40; /* 브랜드 메인 색상 (어두운 베이지/카키) */
+    --primary-muted: rgba(90, 90, 64, 0.6); /* 메인 색상의 반투명 버전 */
+    --bg-page: #EFEFDF; /* 앱 전체의 배경색 (따뜻한 베이지) */
+    --white: #FFFFFF;
+    --text-main: #1C1C16; /* 기본 글씨 색상 (완전 검은색보다 부드러움) */
+    --text-muted: #8E8E85; /* 부가 설명 등에 쓰이는 연한 글씨 색상 */
+    --border: rgba(90, 90, 64, 0.08); /* 연한 테두리 색상 */
+    --inner-border: rgba(90, 90, 64, 0.15);
+    --shadow-soft: 0 10px 40px rgba(0, 0, 0, 0.06); /* 부드럽게 퍼지는 기본 그림자 */
+    --shadow-bold: 0 20px 60px rgba(90, 90, 64, 0.12); /* 강하게 띄워주는 메인 카드 그림자 */
+}
+
+/* 💡 [기본 초기화] 모든 태그의 기본 여백을 없애고, 테두리를 너비에 포함시킵니다. */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent; /* 모바일에서 터치할 때 생기는 파란색 박스 제거 */
+}
+
+/* 앱 전체의 기본 폰트와 배경색을 설정합니다. */
+body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+/* ========================================================
+   [1. 공통 레이아웃 (헤더, 본문, 화면 전환 효과)]
+   ========================================================
+*/
+
+/* 화면 최상단 로고 영역 */
+.main-header {
+    background-color: var(--bg-page);
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.header-container {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex; /* 로고 아이콘과 글자를 가로로 나란히 배치 */
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.logo-icon { width: 28px; height: 28px; color: var(--primary); }
+.logo-text { font-size: 1.25rem; font-weight: 700; }
+
+/* 💡 화면의 최대 너비를 제한하여 PC에서 봐도 모바일 앱처럼 보이게 중앙 정렬합니다. */
+.content-area {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1rem 1.25rem 6rem; /* 하단(6rem)에 네비게이션 바가 들어갈 빈 공간을 확보합니다. */
+}
+
+/* 💡 [화면 전환(SPA) 효과]
+   평소에는 화면을 숨겨두고(display: none), 'active' 클래스가 붙으면 보여줍니다.
+   이때 슬쩍 위로 올라오는 부드러운 애니메이션(slideUp)을 적용합니다.
+*/
+.view-section { display: none; }
+.view-section.active {
+    display: block;
+    animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ========================================================
+   [2. 홈 화면 (#home)]
+   ========================================================
+*/
+
+/* 상단 알림 바 (종 모양) */
+.notification-bar {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 0.85rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.notif-left { display: flex; align-items: center; gap: 0.75rem; }
+.notif-icon { color: var(--text-muted); width: 20px; height: 20px; }
+.notif-text { font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
+
+/* 알림 바 우측의 동그란 사용자 프로필 사진들 */
+.user-avatars { display: flex; align-items: center; }
+.user-avatars img {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 2px solid var(--white);
+    margin-left: -10px; /* 사진들이 서로 살짝 겹쳐 보이도록 설정 */
+    box-shadow: 2px 0 4px rgba(0,0,0,0.05);
+}
+.user-avatars img:first-child { margin-left: 0; }
+
+/* 💡 홈 화면의 가장 큰 '따뜻한 복지 상담' 메인 카드입니다. */
+.hero-card {
+    background-color: var(--primary);
+    border-radius: 40px;
+    padding: 2.75rem 2.25rem;
+    color: var(--white);
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-bold);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hero-header { display: flex; align-items: center; gap: 1.25rem; margin-bottom: 2.5rem; }
+.heart-icon-wrapper {
+    width: 64px; height: 64px;
+    background: rgba(255, 255, 255, 0.12); /* 반투명한 배경 */
+    border-radius: 24px;
+    display: flex; align-items: center; justify-content: center;
+}
+
+.hero-titles { flex: 1; }
+.hero-title { font-size: 1.5rem; font-weight: 600; margin-bottom: 0.25rem; }
+.hero-subtitle { font-size: 1rem; opacity: 0.75; font-weight: 500; }
+
+/* 메인 카드 안의 검색창 모양입니다. */
+.search-container {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    padding: 0.85rem 1.5rem;
+    display: flex; align-items: center; gap: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    margin-bottom: 3rem;
+}
+
+.search-icon { width: 20px; height: 20px; opacity: 0.5; }
+.hero-search-input {
+    background: none; border: none; flex: 1;
+    color: var(--white); outline: none;
+    font-size: 1rem; font-family: inherit;
+}
+/* 입력칸에 글씨를 쓰기 전에 보이는 힌트 텍스트 색상 */
+.hero-search-input::placeholder { color: rgb(255, 255, 255); }
+
+.hero-footer { display: flex; justify-content: space-between; align-items: center; }
+.user-greeting { font-size: 0.95rem; font-weight: 400; opacity: 0.85; }
+
+/* 💡 [상담 시작] 버튼 모양 및 마우스를 올렸을 때의 애니메이션(호버) */
+.start-chat-btn {
+    background: var(--white);
+    color: var(--primary);
+    border: none;
+    padding: 0.9rem 1.75rem;
+    border-radius: 18px;
+    font-weight: 800; font-size: 0.95rem;
+    display: flex; align-items: center; gap: 0.6rem;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s; /* 스르륵 커지는 시간 설정 */
+}
+.start-chat-btn:hover { transform: scale(1.03); /* 마우스를 올리면 1.03배 커짐 */ }
+
+/* 💡 홈 화면 하단의 캘린더/가이드 숏컷 버튼 2개(그리드 레이아웃) */
+.sub-actions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 세로로 2등분 (50% : 50%) */
+    gap: 1.5rem;
+}
+
+.sub-action-card {
+    border-radius: 36px; padding: 2rem 1.75rem; height: 180px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    cursor: pointer;
+    box-shadow: var(--shadow-soft);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+.sub-action-card:hover { 
+    transform: translateY(-6px); /* 마우스를 올리면 위로 살짝 떠오름 */
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+}
+
+.sub-action-card.dark {
+    background-color: var(--primary); color: var(--white);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.sub-icon-bg {
+    width: 48px; height: 48px; border-radius: 16px;
+    background: rgba(0, 0, 0, 0.05);
+    display: flex; align-items: center; justify-content: center;
+}
+.dark .sub-icon-bg { background: rgba(255, 255, 255, 0.1); }
+.sub-action-label { font-weight: 500; font-size: 1.1rem; }
+
+
+/* ========================================================
+   [3. 하단 네비게이션 (.mobile-bottom-nav)]
+   ========================================================
+*/
+/* 💡 화면 맨 아래에 앱 바를 고정(position: fixed)시킵니다. */
+.mobile-bottom-nav {
+    position: fixed; bottom: 0; width: 100%;
+    background: var(--white);
+    display: flex; justify-content: center;
+    padding-top: 0.75rem; padding-bottom: 1.75rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.04);
+    z-index: 1000; /* 항상 가장 위에 보이도록 설정 */
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.02);
+}
+
+/* 네비게이션 배경은 끝까지 차지만, 아이콘들은 이 컨테이너 너비 안에서만 움직입니다. */
+.nav-container {
+    display: flex; justify-content: space-between; /* 양쪽 끝으로 퍼지게 정렬 */
+    width: 100%; max-width: 1000px;
+    padding: 0 20px;
+}
+
+.bottom-nav-item {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 0.35rem; color: var(--text-muted); cursor: pointer;
+    position: relative; flex: 1;
+}
+
+/* 선택된 메뉴 뒤에 생기는 둥근 네모 배경(Highlight)입니다. */
+.nav-item-bg {
+    position: absolute; width: 58px; height: 68px; top: -6px;
+    border-radius: 18px; background: none; z-index: -1;
+    transition: background 0.3s ease;
+}
+
+/* 메뉴가 선택되면 색상이 진해지고, 뒤에 베이지색 배경이 켜집니다. */
+.bottom-nav-item.active .nav-item-bg { background: #F4F4EA; }
+.bottom-nav-item.active { color: var(--text-main); }
+.bottom-nav-item i { width: 24px; height: 24px; stroke-width: 2.25px; }
+.bottom-nav-item span { font-size: 0.7rem; font-weight: 700; }
+
+
+/* ========================================================
+   [4. AI 상담 채팅창 (#chat)]
+   ========================================================
+*/
+.chat-container {
+    background: var(--white); border-radius: 36px;
+    height: calc(100vh - 200px); /* 전체 화면 높이에서 위아래 여백을 뺀 만큼 꽉 채움 */
+    display: flex; flex-direction: column;
+    border: 1px solid rgba(0, 0, 0, 0.08); overflow: hidden;
+    box-shadow: var(--shadow-soft);
+}
+
+.chat-header {
+    padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 1rem;
+}
+
+.back-button { background: none; border: none; cursor: pointer; color: var(--text-muted); padding: 4px; }
+
+/* 💡 말풍선들이 쌓이는 대화창 공간 (스크롤 생성) */
+.chat-messages {
+    flex: 1; padding: 1.5rem; overflow-y: auto;
+    display: flex; flex-direction: column; gap: 1.25rem;
+}
+
+/* 💡 대화 말풍선의 기본 모양 */
+.message { max-width: 85%; padding: 0.85rem 1.1rem; border-radius: 20px; font-size: 0.95rem; line-height: 1.5; }
+
+/* AI가 보낸 메시지: 왼쪽 정렬, 베이지색 */
+.ai-message {
+    align-self: flex-start; background: #EBEBCC; color: var(--text-main);
+    border-bottom-left-radius: 4px; /* 말풍선 꼬리 효과 */
+}
+
+/* 내가 보낸 메시지: 오른쪽 정렬, 카키색(메인색) */
+.user-message {
+    align-self: flex-end; background: var(--primary); color: var(--white);
+    border-bottom-right-radius: 4px;
+}
+
+/* 채팅 입력칸 구역 */
+.chat-input-area { padding: 1.25rem 1.5rem; border-top: 1px solid var(--border); display: flex; gap: 0.75rem; }
+.chat-input-area input {
+    flex: 1; border: none; background: #F1F1EB;
+    padding: 0.85rem 1.5rem; border-radius: 99px; outline: none; font-size: 0.95rem;
+}
+/* 종이비행기 전송 버튼 */
+.send-button {
+    background: var(--primary); color: var(--white); border: none;
+    width: 44px; height: 44px; border-radius: 50%;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+
+/* [로딩 메시지 애니메이션] '● ● ●' 점들이 위아래로 튀어 오르는 효과 */
+.loading-message { display: flex; gap: 6px; align-items: center; padding: 1rem 1.5rem; }
+.loading-message .dot { font-size: 0.5rem; color: var(--primary); animation: dotBounce 1.2s infinite ease-in-out; }
+.loading-message .dot:nth-child(2) { animation-delay: 0.2s; }
+.loading-message .dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes dotBounce {
+    0%, 80%, 100% { transform: scale(0.8); opacity: 0.4; }
+    40% { transform: scale(1.2); opacity: 1; }
+}
+
+
+/* ========================================================
+   [5. 복지 캘린더 (#calendar)]
+   ========================================================
+*/
+.page-header { margin-bottom: 2rem; }
+.page-title { font-size: 1.75rem; font-weight: 700; }
+
+/* 달력 상단 화살표와 년/월 가로 정렬 (최근에 수정한 깔끔한 배열!) */
+.calendar-controls { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+.current-month { font-size: 1.1rem; font-weight: 700; min-width: 100px; text-align: center; }
+
+/* 캘린더 상단 화살표 버튼 스타일 (투박한 모양 제거) */
+.icon-button {
+    background: transparent; border: none; cursor: pointer; padding: 8px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-muted); transition: all 0.2s ease; border-radius: 50%;
+}
+.icon-button:hover { background: rgba(0, 0, 0, 0.05); color: var(--primary); }
+.icon-button i { width: 24px; height: 24px; stroke-width: 2px; }
+
+/* 💡 달력 숫자판 (7칸씩 잘라서 그리드 레이아웃 생성) */
+.calendar-grid {
+    display: grid; grid-template-columns: repeat(7, 1fr); /* 한 줄에 7칸 */
+    gap: 0.75rem; margin-bottom: 2.5rem;
+}
+
+.calendar-day-header { text-align: center; font-size: 0.8rem; font-weight: 800; color: var(--text-muted); }
+
+/* 달력의 각 날짜 네모칸 스타일 */
+.calendar-day {
+    aspect-ratio: 1; /* 가로세로 비율을 1:1 정사각형으로 유지 */
+    background: var(--white); border-radius: 18px; padding: 0.5rem;
+    font-size: 1rem; font-weight: 800;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    border: 1px solid rgba(0, 0, 0, 0.05); box-shadow: var(--shadow-soft);
+}
+
+/* 오늘 날짜는 카키색으로 눈에 띄게! */
+.calendar-day.today { background: var(--primary); color: var(--white); box-shadow: 0 8px 24px rgba(90, 90, 64, 0.3); }
+
+/* 일정이 있는 날짜는 테두리를 진하게 하고 마우스를 올릴 수 있게 표시 */
+.calendar-day.has-event { cursor: pointer; border-color: var(--primary-muted); }
+.calendar-day.has-event:hover { background: #F4F4EA; transform: translateY(-2px); transition: all 0.2s ease; }
+.calendar-day.today.has-event:hover { background: var(--primary); opacity: 0.9; }
+
+/* 일정이 있는 날짜 밑에 찍히는 작은 점(dot) */
+.day-event-dot { width: 6px; height: 6px; background: var(--primary-muted); border-radius: 50%; margin-top: 4px; }
+.today .day-event-dot { background: var(--white); opacity: 0.5; }
+
+
+/* ========================================================
+   [6. 팝업 / 모달창 (#calendar-modal)]
+   ========================================================
+*/
+/* 화면 전체를 어둡게 가리는 배경 (오버레이) */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5); display: none; align-items: center; justify-content: center;
+    z-index: 2000; backdrop-filter: blur(4px); /* 뒤에 있는 화면을 살짝 흐리게 처리 (애플 스타일) */
+}
+.modal-overlay.active { display: flex; animation: fadeIn 0.3s ease; }
+
+/* 실제 팝업창(흰색 박스) 스타일 */
+.modal-content {
+    background: var(--white); width: 90%; max-width: 400px;
+    border-radius: 32px; padding: 2.5rem; position: relative;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    animation: zoomIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+.modal-header h3 { font-size: 1.25rem; font-weight: 800; color: var(--primary); }
+.modal-close { background: none; border: none; cursor: pointer; color: var(--text-muted); }
+
+/* 팝업 내부의 상세 텍스트 디자인 (제목: 값 형태) */
+.event-info-item { margin-bottom: 1.25rem; }
+.event-info-label { display: block; font-size: 0.75rem; font-weight: 800; color: var(--text-muted); margin-bottom: 0.35rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.event-info-value { font-size: 1rem; color: var(--text-main); line-height: 1.5; font-weight: 500; }
+.event-info-value.highlight { font-size: 1.15rem; font-weight: 700; color: var(--primary); }
+
+.event-footer { display: flex; gap: 1rem; }
+.event-action-btn { flex: 1; padding: 1rem; border-radius: 16px; border: 1px solid #8d8d8d; background: none; font-weight: 700; font-size: 0.95rem; cursor: pointer; }
+.event-action-btn.primary { background: var(--primary); color: var(--white); border: none; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes zoomIn { from { opacity: 0; transform: scale(0.9) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+
+
+/* ========================================================
+   [7. 준비서류 가이드 화면 (#guide)]
+   ========================================================
+*/
+/* 필수서류 vs 용어사전 탭 메뉴 */
+.guide-tabs { display: flex; gap: 0.75rem; margin-bottom: 2rem; background: rgba(0, 0, 0, 0.03); padding: 0.5rem; border-radius: 24px; }
+.guide-tab {
+    flex: 1; padding: 1rem; border-radius: 18px; border: 1px solid transparent; background: transparent;
+    font-weight: 700; font-size: 1rem; color: var(--text-muted); cursor: pointer; transition: all 0.3s ease;
+}
+.guide-tab.active { background: var(--white); color: var(--primary); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05); }
+
+/* 안내 텍스트가 표시되는 구역 */
+.guide-content-area { background: var(--white); border-radius: 36px; padding: 2.5rem; border: 1px solid rgba(0, 0, 0, 0.08); box-shadow: var(--shadow-soft); }
+.guide-subtitle { font-size: 1.4rem; font-weight: 800; color: var(--text-main); margin-bottom: 1.5rem; letter-spacing: -0.02em; }
+
+/* 설명글 앞의 작은 동그라미 불릿 모양 커스텀 */
+.guide-list { list-style: none; padding: 0; }
+.guide-list li { position: relative; padding-left: 1.75rem; margin-bottom: 1.25rem; font-size: 1.05rem; font-weight: 500; color: var(--text-main); line-height: 1.6; }
+.guide-list li::before { content: ""; position: absolute; left: 0; top: 0.65rem; width: 6px; height: 6px; background-color: var(--primary); border-radius: 50%; }
+
+.glossary-text { font-size: 1.1rem; line-height: 1.7; color: var(--text-main); }
+.glossary-text strong { color: var(--primary); font-weight: 800; }
+
+
+/* ========================================================
+   [8. 프로필 및 정보 수정 화면 (#profile, #edit-profile)]
+   ========================================================
+*/
+.profile-header-large { text-align: center; margin-bottom: 3.5rem; }
+.profile-avatar-large {
+    width: 120px; height: 120px; border-radius: 50%; overflow: hidden;
+    margin: 0 auto 1.75rem; border: 6px solid var(--white); box-shadow: var(--shadow-soft);
+}
+.profile-avatar-large img { width: 100%; height: 100%; object-fit: cover; }
+.profile-name { font-size: 1.75rem; font-weight: 800; margin-bottom: 0.35rem; }
+.profile-email { color: var(--text-muted); font-size: 1rem; font-weight: 600; }
+
+.profile-form { background: var(--white); border-radius: 40px; padding: 3rem 2.5rem; box-shadow: var(--shadow-soft); border: 1px solid rgba(0, 0, 0, 0.08); }
+.form-group { margin-bottom: 2.5rem; }
+.form-group label { display: block; font-size: 0.85rem; font-weight: 900; color: var(--text-muted); margin-bottom: 1.25rem; text-transform: uppercase; letter-spacing: 0.08em; }
+
+/* 입력칸(Input, Select) 기본 스타일 */
+.form-group select, #edit-profile input, #edit-profile select {
+    width: 100%; padding: 1.25rem; border-radius: 20px;
+    background: #F4F4EA; border: 1px solid #D6D6CC;
+    font-family: inherit; font-weight: 800; font-size: 1.05rem; outline: none; transition: 0.2s;
+}
+#edit-profile input:focus, #edit-profile select:focus { border-color: #6B6B47; background: #FFFFFF; } /* 클릭 시 하얗게 변함 */
+
+/* 관심 분야 선택하는 둥근 칩 버튼들 */
+.interest-chips { display: flex; flex-wrap: wrap; gap: 0.85rem; }
+.chip { padding: 0.75rem 1.5rem; border-radius: 99px; background: #F4F4EA; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: all 0.2s; border: 1px solid #D6D6CC; }
+.chip.active { background: var(--primary); color: var(--white); }
+
+/* 각종 저장/취소 버튼 통일 디자인 */
+.save-button, .login-button {
+    width: 100%; padding: 1.4rem; border-radius: 24px;
+    background: var(--primary); color: var(--white); border: 1px solid #D6D6CC;
+    font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; cursor: pointer;
+    box-shadow: 0 12px 30px rgba(90, 90, 64, 0.25); transition: 0.2s;
+}
+.save-button:hover, .login-button:hover { transform: translateY(-2px); opacity: 0.95; }
+
+.logout-button {
+    width: 100%; padding: 1.4rem; border-radius: 24px;
+    background: #cdcdcd; border: 2px solid #F3F4F6;
+    color: #a3a3a3; font-weight: 800; font-size: 1.1rem; cursor: pointer;
+}
+
+
+/* ========================================================
+   [9. 로그인 및 회원가입 화면 (#login-page, #signup-page)]
+   ========================================================
+*/
+/* 로그인/회원가입은 모달처럼 다른 요소들(메인 앱)을 아예 가리고 화면 최상단에 띄웁니다. */
+.login-page {
+    position: fixed; inset: 0; background: var(--bg-page);
+    display: flex; justify-content: center; align-items: center;
+    padding: 2rem; z-index: 5000;
+}
+
+.login-card {
+    width: 100%; max-width: 560px; background: var(--white);
+    border-radius: 40px; padding: 4rem 3rem;
+    box-shadow: var(--shadow-bold); text-align: center;
+}
+.login-subtitle { color: var(--text-muted); margin-bottom: 3rem; }
+
+.login-form { display: flex; flex-direction: column; gap: 1rem; }
+.login-form input, .login-form select {
+    width: 100%; height: 58px; padding: 1rem; border-radius: 18px;
+    border: 1px solid #D8D5C8; background: #F3F1E8;
+    font-size: 1rem; font-family: inherit; outline: none;
+}
+
+/* 흰색 배경을 가진 서브 버튼 (로그인으로 돌아가기 등) */
+.signup-move-button {
+    width: 100%; height: 58px; border-radius: 18px;
+    border: 1px solid #D8D5C8; background: white; color: #6B6B47;
+    font-size: 1rem; font-weight: 700; cursor: pointer; margin-top: 1rem; transition: 0.2s;
+}
+.signup-move-button:hover { background: #F3F1E8; }
